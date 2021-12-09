@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>Queue.Sqs</RootNamespace>
+        <PackageId>7Factor.QueueAdapter.Sqs</PackageId>
+        <RepositoryUrl>https://github.com/7Factor/dotnet-queue-adapter</RepositoryUrl>
+        <Company>7Factor Software</Company>
+        <PackageVersion>1.0.0</PackageVersion>
+        <Authors>7Factor Software</Authors>
+        <PackageProjectUrl>https://github.com/7Factor/dotnet-queue-adapter</PackageProjectUrl>
+        <PackageLicenseUrl>https://github.com/7Factor/dotnet-queue-adapter/blob/main/LICENSE</PackageLicenseUrl>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="AWSSDK.SQS" Version="3.7.2.3" />
+      <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Domain\Domain.csproj" />
+    </ItemGroup>
+
+</Project>
