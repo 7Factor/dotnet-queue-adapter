@@ -11,7 +11,7 @@
         <PackageVersion>1.0.0</PackageVersion>
         <Authors>7Factor Software</Authors>
         <PackageProjectUrl>https://github.com/7Factor/dotnet-queue-adapter</PackageProjectUrl>
-        <PackageLicenseUrl>https://github.com/7Factor/dotnet-queue-adapter/blob/main/LICENSE</PackageLicenseUrl>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
     </PropertyGroup>
 
     <ItemGroup>
