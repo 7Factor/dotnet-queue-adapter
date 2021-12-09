@@ -34,7 +34,7 @@ jobs:
         run: |
           cd src/Domain
           dotnet pack -c Release -o out
-          cd ../src/Sqs
+          cd ../../src/Sqs
           dotnet pack -c Release -o out
 
       - name: Publish NuGet package to GitHub Packages
