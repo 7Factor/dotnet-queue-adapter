@@ -18,7 +18,7 @@ jobs:
         uses: battila7/get-version-action@v2
 
       - name: Substitue version number
-        run:
+        run: |
           sed -i "s/1.0.0/${{steps.get_version.outputs.version-without-v}}/" src/Domain/Domain.csproj
           sed -i "s/1.0.0/${{steps.get_version.outputs.version-without-v}}/" src/Sqs/Sqs.csproj
 
