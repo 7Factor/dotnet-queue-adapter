@@ -1,10 +1,10 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "src\Domain\Domain.csproj", "{BF34F737-5AB9-487D-802B-5EAD02642B34}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractions", "src\Abstractions\Abstractions.csproj", "{BF34F737-5AB9-487D-802B-5EAD02642B34}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sqs", "src\Sqs\Sqs.csproj", "{F2FD0D4F-E32A-4D72-97BE-95F846BA2A24}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain.Test", "tests\Domain.Test\Domain.Test.csproj", "{54C148EB-A584-4865-8B69-8F2532194446}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractions.Test", "tests\Abstractions.Test\Abstractions.Test.csproj", "{54C148EB-A584-4865-8B69-8F2532194446}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
