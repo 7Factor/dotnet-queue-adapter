@@ -5,7 +5,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <RootNamespace>_7Factor.QueueAdapter</RootNamespace>
-        <PackageId>7Factor.QueueAdapter</PackageId>
+        <PackageId>7Factor.QueueAdapter.Abstractions</PackageId>
         <RepositoryUrl>https://github.com/7Factor/dotnet-queue-adapter</RepositoryUrl>
         <Company>7Factor Software</Company>
         <PackageVersion>1.0.0</PackageVersion>
