@@ -1,4 +1,4 @@
-namespace Queue.Sqs.Configuration;
+namespace _7Factor.QueueAdapter.Sqs.Configuration;
 
 public interface IAwsConfiguration
 {

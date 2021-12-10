@@ -1,7 +1,7 @@
-using Queue.Message;
+using _7Factor.QueueAdapter.Message;
 using Xunit;
 
-namespace Queue.Test.Message;
+namespace _7Factor.QueueAdapter.Test.Message;
 
 public class MessageSchemaTest
 {

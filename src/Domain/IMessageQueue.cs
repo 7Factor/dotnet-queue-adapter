@@ -1,6 +1,6 @@
-using Queue.Message;
+using _7Factor.QueueAdapter.Message;
 
-namespace Queue;
+namespace _7Factor.QueueAdapter;
 
 public interface IMessageQueue
 {

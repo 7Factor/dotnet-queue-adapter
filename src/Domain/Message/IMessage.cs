@@ -1,4 +1,4 @@
-﻿namespace Queue.Message;
+﻿namespace _7Factor.QueueAdapter.Message;
 
 public interface IMessage
 {

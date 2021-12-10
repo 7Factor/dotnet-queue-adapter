@@ -1,9 +1,9 @@
+using _7Factor.QueueAdapter.Message;
+using _7Factor.QueueAdapter.Sqs.Client;
+using _7Factor.QueueAdapter.Sqs.Configuration;
 using Microsoft.Extensions.Logging;
-using Queue.Message;
-using Queue.Sqs.Client;
-using Queue.Sqs.Configuration;
 
-namespace Queue.Sqs;
+namespace _7Factor.QueueAdapter.Sqs;
 
 public class SqsMessageQueue : IMessageQueue
 {

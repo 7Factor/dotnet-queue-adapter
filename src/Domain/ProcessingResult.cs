@@ -1,6 +1,6 @@
-using Queue.Message;
+using _7Factor.QueueAdapter.Message;
 
-namespace Queue;
+namespace _7Factor.QueueAdapter;
 
 /// <summary>
 /// Holds the result of processing a message with the messageProcessor passed into the Process method of

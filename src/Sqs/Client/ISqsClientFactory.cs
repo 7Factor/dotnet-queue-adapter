@@ -1,6 +1,6 @@
 ﻿using Amazon.SQS;
 
-namespace Queue.Sqs.Client;
+namespace _7Factor.QueueAdapter.Sqs.Client;
 
 public interface ISqsClientFactory
 {

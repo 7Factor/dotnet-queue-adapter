@@ -1,4 +1,4 @@
-namespace Queue.Sqs.Configuration;
+namespace _7Factor.QueueAdapter.Sqs.Configuration;
 
 // ReSharper disable once ClassNeverInstantiated.Global
 // ReSharper disable once UnusedTypeParameter

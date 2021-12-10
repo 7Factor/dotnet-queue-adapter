@@ -1,8 +1,8 @@
-﻿using Amazon;
+﻿using _7Factor.QueueAdapter.Sqs.Configuration;
+using Amazon;
 using Amazon.SQS;
-using Queue.Sqs.Configuration;
 
-namespace Queue.Sqs.Client;
+namespace _7Factor.QueueAdapter.Sqs.Client;
 
 public class AmazonSqsClientFactory : ISqsClientFactory
 {

@@ -4,7 +4,7 @@
         <TargetFramework>net6.0</TargetFramework>
         <Nullable>enable</Nullable>
         <IsPackable>false</IsPackable>
-        <RootNamespace>Queue.Test</RootNamespace>
+        <RootNamespace>_7Factor.QueueAdapter.Test</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

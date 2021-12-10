@@ -1,4 +1,4 @@
-namespace Queue.Sqs;
+namespace _7Factor.QueueAdapter.Sqs;
 
 internal class SqsMessageAttribute
 {

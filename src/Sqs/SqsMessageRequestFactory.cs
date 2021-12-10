@@ -1,7 +1,7 @@
-﻿using Amazon.SQS.Model;
-using Queue.Message;
+﻿using _7Factor.QueueAdapter.Message;
+using Amazon.SQS.Model;
 
-namespace Queue.Sqs;
+namespace _7Factor.QueueAdapter.Sqs;
 
 internal static class SqsMessageRequestFactory
 {

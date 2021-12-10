@@ -1,6 +1,6 @@
-using Queue.Message;
+using _7Factor.QueueAdapter.Message;
 
-namespace Queue;
+namespace _7Factor.QueueAdapter;
 
 /// <summary>
 /// A delegate function that processes a message. The function must return a <see cref="ProcessingResult"/> that
