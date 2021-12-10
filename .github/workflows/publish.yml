@@ -1,4 +1,4 @@
-name: Publish to GitHub Packages
+name: Publish to NuGet Gallery
 
 on:
   push:
@@ -26,9 +26,8 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '6.0.100'
-          source-url: https://nuget.pkg.github.com/7Factor/index.json
         env:
-          NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          NUGET_AUTH_TOKEN: ${{secrets.NUGET_ORG_API_KEY}}
 
       - name: Build NuGet packages
         run: |
@@ -37,12 +36,12 @@ jobs:
           cd ../../src/Sqs
           dotnet pack -c Release -o out
 
-      - name: Publish NuGet package to GitHub Packages
+      - name: Publish NuGet package to NuGet Gallery
         run: |
-          dotnet nuget push ./src/Abstractions/out/*.nupkg -k ${GITHUB_TOKEN} -s https://nuget.pkg.github.com/7Factor/index.json --no-symbols true
-          dotnet nuget push ./src/Sqs/out/*.nupkg -k ${GITHUB_TOKEN} -s https://nuget.pkg.github.com/7Factor/index.json --no-symbols true
+          dotnet nuget push ./src/Abstractions/out/*.nupkg -k ${API_KEY} --no-symbols true
+          dotnet nuget push ./src/Sqs/out/*.nupkg -k ${API_KEY} --no-symbols true
         env:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          API_KEY: ${{secrets.NUGET_ORG_API_KEY}}
 
       - name: Create release
         uses: actions/create-release@v1
