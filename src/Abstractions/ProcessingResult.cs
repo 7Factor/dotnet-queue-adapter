@@ -20,6 +20,14 @@ public readonly record struct ProcessingResult(IMessage Message, bool ShouldRetr
     }
 
     /// <summary>
+    /// Identical to <see cref="Success"/> but with the return value wrapped in a task.
+    /// </summary>
+    public static Task<ProcessingResult> SuccessAsync(IMessage message)
+    {
+        return Task.FromResult(Success(message));
+    }
+
+    /// <summary>
     /// Indicate <see cref="IMessageQueue"/> processing failed in the message processor function. The unprocessed
     /// message will be removed from the queue unless retry is set to <c>true</c>.
     /// </summary>
@@ -30,5 +38,13 @@ public readonly record struct ProcessingResult(IMessage Message, bool ShouldRetr
     public static ProcessingResult Failure(IMessage message, bool retry = false)
     {
         return new ProcessingResult(message, retry);
+    }
+
+    /// <summary>
+    /// Identical to <see cref="Failure"/> but with the return value wrapped in a task.
+    /// </summary>
+    public static Task<ProcessingResult> FailureAsync(IMessage message, bool retry = false)
+    {
+        return Task.FromResult(Failure(message, retry));
     }
 }
