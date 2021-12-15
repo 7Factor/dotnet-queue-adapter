@@ -5,6 +5,9 @@ using Microsoft.Extensions.Logging;
 
 namespace _7Factor.QueueAdapter.Sqs;
 
+/// <summary>
+/// An implementation of <see cref="IMessageQueue"/> that uses SQS as a data source for the queue.
+/// </summary>
 public class SqsMessageQueue : IMessageQueue
 {
     private readonly string _queueUrl;
@@ -67,6 +70,12 @@ public class SqsMessageQueue : IMessageQueue
     }
 }
 
+/// <summary>
+/// An implementation of <see cref="IMessageQueue"/> that uses SQS as a data source for the queue. This form takes a
+/// generic type so that Dependency-Injection can inject instances that represent different queue data sources.
+/// </summary>
+/// <typeparam name="TQueueId">An identifier of the data source that this queue represents.</typeparam>
+// ReSharper disable once UnusedType.Global
 public class SqsMessageQueue<TQueueId> : SqsMessageQueue, IMessageQueue<TQueueId> where TQueueId : IQueueIdentifier
 {
     public SqsMessageQueue(IQueueConfiguration<TQueueId> queueConfig, ISqsClientFactory clientFactory,

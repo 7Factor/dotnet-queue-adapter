@@ -1,5 +1,9 @@
 ﻿namespace _7Factor.QueueAdapter.Message;
 
+/// <summary>
+/// Used on <see cref="IMessage"/> to identify the form of the data in the message body. Any custom MessageSchema should
+/// be instantiated prior to reading messages from a queue.
+/// </summary>
 public sealed record MessageSchema
 {
     private static readonly Dictionary<string, MessageSchema> MessageSchemas = new();

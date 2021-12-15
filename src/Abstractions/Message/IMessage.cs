@@ -1,5 +1,9 @@
 ﻿namespace _7Factor.QueueAdapter.Message;
 
+/// <summary>
+/// A message from an <see cref="IMessageQueue"/>. Messages have a simple <see cref="MessageSchema"/> metadata to
+/// help identify what form the data in the <see cref="Body"/> is expected to be in.
+/// </summary>
 public interface IMessage
 {
     /// <summary>

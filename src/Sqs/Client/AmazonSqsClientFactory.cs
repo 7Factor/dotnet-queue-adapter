@@ -4,18 +4,18 @@ using Amazon.SQS;
 
 namespace _7Factor.QueueAdapter.Sqs.Client;
 
+/// <summary>
+/// A basic implementation of <see cref="ISqsClientFactory"/> for getting SQS queues living in AWS.
+/// </summary>
 public class AmazonSqsClientFactory : ISqsClientFactory
 {
-    private readonly IAwsConfiguration _config;
-
     private readonly IAmazonSQS _client;
         
     public AmazonSqsClientFactory(IAwsConfiguration config)
     {
-        _config = config;
         _client = new AmazonSQSClient(new AmazonSQSConfig
         {
-            RegionEndpoint = RegionEndpoint.GetBySystemName(_config.Region)
+            RegionEndpoint = RegionEndpoint.GetBySystemName(config.Region)
         });
     }
         
