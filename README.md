@@ -18,19 +18,23 @@ values.
 ### Example Usage
 
 ```c#
-public static class Queues {
+public static class Queues
+{
     public class SomeQueue : IQueueIdentifier {}
 }
 
-public class QueueWorker {
+public class QueueWorker
+{
     private readonly IMessageQueue<Queues.SomeQueue> _queue;
     
-    public QueueWorker(IMessageQueue<Queues.SomeQueue> queue) {
+    public QueueWorker(IMessageQueue<Queues.SomeQueue> queue)
+    {
         _queue = queue;
     }
     
     // Call this when you want to process the next queue message
-    public async Task<ProcessingResult?> ProcessNextMessage() {
+    public async Task<ProcessingResult?> ProcessNextMessage()
+    {
         return await _queue.Process(async message => {
             // Do something with the message
         });
