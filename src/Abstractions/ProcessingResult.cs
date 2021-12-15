@@ -8,7 +8,7 @@ namespace _7Factor.QueueAdapter;
 /// </summary>
 /// <param name="Message">The message that was processed.</param>
 /// <param name="ShouldRetry">Whether the message should remain on the queue for retrying processing.</param>
-public readonly record struct ProcessingResult(IMessage Message, bool ShouldRetry)
+public record ProcessingResult(IMessage Message, bool ShouldRetry)
 {
     /// <summary>
     /// Indicate <see cref="IMessageQueue"/> processing succeeded for the given message.
@@ -17,6 +17,14 @@ public readonly record struct ProcessingResult(IMessage Message, bool ShouldRetr
     public static ProcessingResult Success(IMessage message)
     {
         return new ProcessingResult(message, false);
+    }
+
+    /// <summary>
+    /// Identical to <see cref="Success"/> but with the return value wrapped in a task.
+    /// </summary>
+    public static Task<ProcessingResult> SuccessAsync(IMessage message)
+    {
+        return Task.FromResult(Success(message));
     }
 
     /// <summary>
@@ -30,5 +38,13 @@ public readonly record struct ProcessingResult(IMessage Message, bool ShouldRetr
     public static ProcessingResult Failure(IMessage message, bool retry = false)
     {
         return new ProcessingResult(message, retry);
+    }
+
+    /// <summary>
+    /// Identical to <see cref="Failure"/> but with the return value wrapped in a task.
+    /// </summary>
+    public static Task<ProcessingResult> FailureAsync(IMessage message, bool retry = false)
+    {
+        return Task.FromResult(Failure(message, retry));
     }
 }

@@ -2,7 +2,7 @@ namespace _7Factor.QueueAdapter.Sqs;
 
 internal class SqsMessageAttribute
 {
-    public static readonly SqsMessageAttribute MessageType = new("messageType", "string");
+    public static readonly SqsMessageAttribute MessageType = new("messageSchema", "string");
 
     private SqsMessageAttribute(string key, string type)
     {
