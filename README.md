@@ -42,8 +42,7 @@ public class QueueWorker
 }
 
 // DI setup
-serviceCollection.AddSingleton<IAwsConfiguration>(new AwsConfiguration { Region = "us-east-1" });
-serviceCollection.AddSingleton<ISqsClientFactory, AmazonSqsClientFactory>();
+serviceCollection.AddAWSService<IAmazonSQS>(new AWSOptions { Region = RegionEndpoint.GetBySystemName("us-east-1") });
 
 serviceCollection.AddSingleton<IQueueConfiguration<Queues.SomeQueue>>(new QueueConfiguration<Queues.SomeQueue> { Url = "https://the.url" });
 serviceCollection.AddSingleton<IMessageQueue<Queues.SomeQueue>, SqsMessageQueue<Queues.SomeQueue>>();

@@ -1,6 +1,6 @@
 using _7Factor.QueueAdapter.Message;
-using _7Factor.QueueAdapter.Sqs.Client;
 using _7Factor.QueueAdapter.Sqs.Configuration;
+using Amazon.SQS;
 using Microsoft.Extensions.Logging;
 
 namespace _7Factor.QueueAdapter.Sqs;
@@ -11,29 +11,26 @@ namespace _7Factor.QueueAdapter.Sqs;
 public class SqsMessageQueue : IMessageQueue
 {
     private readonly string _queueUrl;
-    private readonly ISqsClientFactory _clientFactory;
+    private readonly IAmazonSQS _sqsClient;
     private readonly ILogger<SqsMessageQueue> _logger;
 
-    public SqsMessageQueue(string queueUrl, ISqsClientFactory clientFactory, ILogger<SqsMessageQueue> logger)
+    public SqsMessageQueue(string queueUrl, IAmazonSQS sqsClient, ILogger<SqsMessageQueue> logger)
     {
-        _clientFactory = clientFactory;
+        _sqsClient = sqsClient;
         _queueUrl = queueUrl;
         _logger = logger;
     }
 
     public async Task Push(IMessage message)
     {
-        var client = _clientFactory.CreateSqsClient();
         var messageRequest = SqsMessageRequestFactory.CreateSendMessageRequest(_queueUrl, message);
-        await client.SendMessageAsync(messageRequest);
+        await _sqsClient.SendMessageAsync(messageRequest);
     }
 
     public async Task<ProcessingResult?> Process(MessageProcessor messageProcessor)
     {
-        var client = _clientFactory.CreateSqsClient();
-
         var messageRequest = SqsMessageRequestFactory.CreateReceiveMessageRequest(_queueUrl);
-        var response = await client.ReceiveMessageAsync(messageRequest);
+        var response = await _sqsClient.ReceiveMessageAsync(messageRequest);
         var sqsMessage = response.Messages.Count > 0 ? response.Messages[0] : null;
 
         if (sqsMessage == null) return null;
@@ -43,7 +40,7 @@ public class SqsMessageQueue : IMessageQueue
 
         if (!processingResult.ShouldRetry)
         {
-            await client.DeleteMessageAsync(_queueUrl, sqsMessage.ReceiptHandle);
+            await _sqsClient.DeleteMessageAsync(_queueUrl, sqsMessage.ReceiptHandle);
         }
 
         return processingResult;
@@ -78,6 +75,6 @@ public class SqsMessageQueue : IMessageQueue
 // ReSharper disable once UnusedType.Global
 public class SqsMessageQueue<TQueueId> : SqsMessageQueue, IMessageQueue<TQueueId> where TQueueId : IQueueIdentifier
 {
-    public SqsMessageQueue(IQueueConfiguration<TQueueId> queueConfig, ISqsClientFactory clientFactory,
-        ILogger<SqsMessageQueue<TQueueId>> logger) : base(queueConfig.Url, clientFactory, logger) {}
+    public SqsMessageQueue(IQueueConfiguration<TQueueId> queueConfig, IAmazonSQS sqsClient,
+        ILogger<SqsMessageQueue<TQueueId>> logger) : base(queueConfig.Url, sqsClient, logger) {}
 }
