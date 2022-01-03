@@ -15,7 +15,7 @@ public class SqsMessageQueueTest
 
     private const string SqsUrl = "https://www.example.com";
     private const string MessageSchemaKey = "messageSchema";
-    private const string MessageSchemaDataType = "string";
+    private const string MessageSchemaDataType = "String";
     private const string MessageBody = "Hello";
 
     private static readonly MessageSchema SampleSchema = new MessageSchema("SampleSchema");
