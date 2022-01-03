@@ -1,4 +1,5 @@
 using _7Factor.QueueAdapter.Message;
+using _7Factor.QueueAdapter.Sqs.Configuration;
 using _7Factor.QueueAdapter.Sqs.Test.Util;
 using Amazon.SQS;
 using Amazon.SQS.Model;
@@ -46,7 +47,7 @@ public class SqsMessageQueueTest
     public SqsMessageQueueTest()
     {
         _sqsMock = new Mock<IAmazonSQS>();
-        _queue = new SqsMessageQueue(SqsUrl, _sqsMock.Object, Mock.Of<ILogger<SqsMessageQueue>>());
+        _queue = new SqsMessageQueue(new QueueConfiguration(SqsUrl), _sqsMock.Object, Mock.Of<ILogger<SqsMessageQueue>>());
     }
 
     #endregion

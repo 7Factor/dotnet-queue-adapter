@@ -14,10 +14,10 @@ public class SqsMessageQueue : IMessageQueue
     private readonly IAmazonSQS _sqsClient;
     private readonly ILogger<SqsMessageQueue> _logger;
 
-    public SqsMessageQueue(string queueUrl, IAmazonSQS sqsClient, ILogger<SqsMessageQueue> logger)
+    public SqsMessageQueue(IQueueConfiguration queueUrl, IAmazonSQS sqsClient, ILogger<SqsMessageQueue> logger)
     {
         _sqsClient = sqsClient;
-        _queueUrl = queueUrl;
+        _queueUrl = queueUrl.Url;
         _logger = logger;
     }
 
@@ -76,5 +76,7 @@ public class SqsMessageQueue : IMessageQueue
 public class SqsMessageQueue<TQueueId> : SqsMessageQueue, IMessageQueue<TQueueId> where TQueueId : IQueueIdentifier
 {
     public SqsMessageQueue(IQueueConfiguration<TQueueId> queueConfig, IAmazonSQS sqsClient,
-        ILogger<SqsMessageQueue<TQueueId>> logger) : base(queueConfig.Url, sqsClient, logger) {}
+        ILogger<SqsMessageQueue<TQueueId>> logger) : base(queueConfig, sqsClient, logger)
+    {
+    }
 }
