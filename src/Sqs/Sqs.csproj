@@ -5,6 +5,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <RootNamespace>_7Factor.QueueAdapter.Sqs</RootNamespace>
+        <AssemblyName>7Factor.QueueAdapter.Sqs</AssemblyName>
         <PackageId>7Factor.QueueAdapter.Sqs</PackageId>
         <RepositoryUrl>https://github.com/7Factor/dotnet-queue-adapter</RepositoryUrl>
         <Company>7Factor Software</Company>
