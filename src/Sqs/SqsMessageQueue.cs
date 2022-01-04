@@ -14,12 +14,16 @@ public class SqsMessageQueue : IMessageQueue
     private readonly IAmazonSQS _sqsClient;
     private readonly ILogger<SqsMessageQueue> _logger;
 
-    public SqsMessageQueue(IQueueConfiguration queueConfig, IAmazonSQS sqsClient, ILogger<SqsMessageQueue> logger)
+    public SqsMessageQueue(IQueueConfiguration queueConfig, IMessageSchemaProvider messageSchemaProvider,
+        IAmazonSQS sqsClient, ILogger<SqsMessageQueue> logger)
     {
-        _sqsClient = sqsClient;
         _queueUrl = queueConfig.Url;
+        MessageSchemaProvider = messageSchemaProvider;
+        _sqsClient = sqsClient;
         _logger = logger;
     }
+
+    public IMessageSchemaProvider MessageSchemaProvider { get; }
 
     public async Task Push(IMessage message)
     {
@@ -49,7 +53,7 @@ public class SqsMessageQueue : IMessageQueue
     private IMessage CreateMessage(Amazon.SQS.Model.Message message)
     {
         var messageTypeAttr = GetMessageAttributeValue(message, SqsMessageAttribute.MessageType);
-        var messageSchema = MessageSchema.FromString(messageTypeAttr);
+        var messageSchema = MessageSchemaProvider.ParseMessageSchema(messageTypeAttr);
 
         if (messageSchema == MessageSchema.Unknown)
         {
@@ -75,8 +79,9 @@ public class SqsMessageQueue : IMessageQueue
 // ReSharper disable once UnusedType.Global
 public class SqsMessageQueue<TQueueId> : SqsMessageQueue, IMessageQueue<TQueueId> where TQueueId : IQueueIdentifier
 {
-    public SqsMessageQueue(IQueueConfiguration<TQueueId> queueConfig, IAmazonSQS sqsClient,
-        ILogger<SqsMessageQueue<TQueueId>> logger) : base(queueConfig, sqsClient, logger)
+    public SqsMessageQueue(IQueueConfiguration<TQueueId> queueConfig,
+        IMessageSchemaProvider<TQueueId> messageSchemaProvider, IAmazonSQS sqsClient,
+        ILogger<SqsMessageQueue<TQueueId>> logger) : base(queueConfig, messageSchemaProvider, sqsClient, logger)
     {
     }
 }

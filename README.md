@@ -25,6 +25,10 @@ public static class Queues
     public class SomeQueue : IQueueIdentifier {}
 }
 
+public static class MessageSchemas {
+    public static readonly MessageSchema SampleSchema = new("SampleSchema");
+}
+
 public class QueueWorker
 {
     private readonly IMessageQueue<Queues.SomeQueue> _queue;
@@ -45,5 +49,5 @@ public class QueueWorker
 
 // DI setup
 serviceCollection.AddAWSService<IAmazonSQS>(new AWSOptions { Region = RegionEndpoint.GetBySystemName("us-east-1") });
-serviceCollection.AddSqsQueue<Queues.SomeQueue>("https://the.url");
+serviceCollection.AddSqsQueue<Queues.SomeQueue>("https://the.url", new List<MessageSchema> { MessageSchemas.SampleSchema });
 ```
