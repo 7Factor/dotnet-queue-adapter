@@ -8,6 +8,11 @@ namespace _7Factor.QueueAdapter;
 public interface IMessageQueue
 {
     /// <summary>
+    /// The provider for <see cref="MessageSchema"/> known to this queue.
+    /// </summary>
+    public IMessageSchemaProvider MessageSchemaProvider { get; }
+
+    /// <summary>
     /// Pushes a message onto the end of the queue.
     /// </summary>
     /// <param name="message">The message to push onto the queue.</param>

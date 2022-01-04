@@ -1,7 +1,6 @@
 using _7Factor.QueueAdapter.Message;
 using _7Factor.QueueAdapter.Sqs.Configuration;
 using Amazon.SQS;
-using Microsoft.Extensions.Logging;
 
 namespace _7Factor.QueueAdapter.Sqs;
 
@@ -12,14 +11,16 @@ public class SqsMessageQueue : IMessageQueue
 {
     private readonly string _queueUrl;
     private readonly IAmazonSQS _sqsClient;
-    private readonly ILogger<SqsMessageQueue> _logger;
 
-    public SqsMessageQueue(IQueueConfiguration queueConfig, IAmazonSQS sqsClient, ILogger<SqsMessageQueue> logger)
+    public SqsMessageQueue(IQueueConfiguration queueConfig, IMessageSchemaProvider messageSchemaProvider,
+        IAmazonSQS sqsClient)
     {
-        _sqsClient = sqsClient;
         _queueUrl = queueConfig.Url;
-        _logger = logger;
+        MessageSchemaProvider = messageSchemaProvider;
+        _sqsClient = sqsClient;
     }
+
+    public IMessageSchemaProvider MessageSchemaProvider { get; }
 
     public async Task Push(IMessage message)
     {
@@ -49,12 +50,7 @@ public class SqsMessageQueue : IMessageQueue
     private IMessage CreateMessage(Amazon.SQS.Model.Message message)
     {
         var messageTypeAttr = GetMessageAttributeValue(message, SqsMessageAttribute.MessageType);
-        var messageSchema = MessageSchema.FromString(messageTypeAttr);
-
-        if (messageSchema == MessageSchema.Unknown)
-        {
-            _logger.LogWarning("Unknown message type \"{MessageType}\"", messageTypeAttr);
-        }
+        var messageSchema = MessageSchemaProvider.ParseMessageSchema(messageTypeAttr);
 
         var body = message.Body;
 
@@ -75,8 +71,9 @@ public class SqsMessageQueue : IMessageQueue
 // ReSharper disable once UnusedType.Global
 public class SqsMessageQueue<TQueueId> : SqsMessageQueue, IMessageQueue<TQueueId> where TQueueId : IQueueIdentifier
 {
-    public SqsMessageQueue(IQueueConfiguration<TQueueId> queueConfig, IAmazonSQS sqsClient,
-        ILogger<SqsMessageQueue<TQueueId>> logger) : base(queueConfig, sqsClient, logger)
+    public SqsMessageQueue(IQueueConfiguration<TQueueId> queueConfig,
+        IMessageSchemaProvider<TQueueId> messageSchemaProvider, IAmazonSQS sqsClient) : base(queueConfig,
+        messageSchemaProvider, sqsClient)
     {
     }
 }

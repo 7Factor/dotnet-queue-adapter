@@ -3,7 +3,6 @@ using _7Factor.QueueAdapter.Sqs.Configuration;
 using _7Factor.QueueAdapter.Sqs.Test.Util;
 using Amazon.SQS;
 using Amazon.SQS.Model;
-using Microsoft.Extensions.Logging;
 using Moq;
 using Xunit;
 
@@ -47,7 +46,8 @@ public class SqsMessageQueueTest
     public SqsMessageQueueTest()
     {
         _sqsMock = new Mock<IAmazonSQS>();
-        _queue = new SqsMessageQueue(new QueueConfiguration(SqsUrl), _sqsMock.Object, Mock.Of<ILogger<SqsMessageQueue>>());
+        _queue = new SqsMessageQueue(new QueueConfiguration(SqsUrl), new MessageSchemaProvider(SampleSchema),
+            _sqsMock.Object);
     }
 
     #endregion
@@ -108,10 +108,7 @@ public class SqsMessageQueueTest
     {
         PrepareReceiveMessageCallOnEmptyQueue();
 
-        var result = await _queue.Process(m =>
-        {
-            return ProcessingResult.SuccessAsync(m);
-        });
+        var result = await _queue.Process(m => { return ProcessingResult.SuccessAsync(m); });
 
         Assert.Null(result);
     }
@@ -152,7 +149,8 @@ public class SqsMessageQueueTest
 
     private record SendMessageArgs(SendMessageRequest Request);
 
-    private MockedMethodCall<SendMessageArgs, SendMessageResponse> PrepareSendMessageCall(string? returnedMessageId = null)
+    private MockedMethodCall<SendMessageArgs, SendMessageResponse> PrepareSendMessageCall(
+        string? returnedMessageId = null)
     {
         var data = new MockedMethodCall<SendMessageArgs, SendMessageResponse>
         {
