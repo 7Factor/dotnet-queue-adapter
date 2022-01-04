@@ -10,9 +10,11 @@ queues by using the generic form of `IMessageQueue`. Just implement the `IQueueI
 ### SQS
 
 An implementation of the abstractions for queues backed by AWS SQS can be found in the `7Factor.QueueAdapter.Sqs` NuGet package.
-To instantiate an `SqsMessageQueue` you will need the URL of your SQS queue, a client factory and a logger. A client factory
-implementation is provided in `AmazonSqsClientFactory`. Configuration interfaces are provided to enable DI on configurable
-values.
+To instantiate an `SqsMessageQueue` you will need the URL of your SQS queue, an SQS client, and a logger. Configuration 
+interfaces are provided to enable DI on configurable values.
+
+Additionally, the `7Factor.QueueAdapter.Sqs.DependencyInjection` package provides some extension methods for `IServiceCollection`
+to make injecting queues even easier.
 
 
 ### Example Usage
@@ -42,9 +44,6 @@ public class QueueWorker
 }
 
 // DI setup
-serviceCollection.AddSingleton<IAwsConfiguration>(new AwsConfiguration { Region = "us-east-1" });
-serviceCollection.AddSingleton<ISqsClientFactory, AmazonSqsClientFactory>();
-
-serviceCollection.AddSingleton<IQueueConfiguration<Queues.SomeQueue>>(new QueueConfiguration<Queues.SomeQueue> { Url = "https://the.url" });
-serviceCollection.AddSingleton<IMessageQueue<Queues.SomeQueue>, SqsMessageQueue<Queues.SomeQueue>>();
+serviceCollection.AddAWSService<IAmazonSQS>(new AWSOptions { Region = RegionEndpoint.GetBySystemName("us-east-1") });
+serviceCollection.AddSqsQueue<Queues.SomeQueue>("https://the.url");
 ```

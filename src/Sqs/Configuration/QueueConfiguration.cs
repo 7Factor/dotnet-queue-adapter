@@ -1,6 +1,7 @@
 namespace _7Factor.QueueAdapter.Sqs.Configuration;
 
-public record QueueConfiguration<TQueueId>(string Url) : IQueueConfiguration<TQueueId> where TQueueId : IQueueIdentifier
-{
-    public string Url { get; set; } = string.Empty;
-}
+public record QueueConfiguration(string Url) : IQueueConfiguration;
+
+// ReSharper disable once ClassNeverInstantiated.Global
+public record QueueConfiguration<TQueueId>(string Url) : QueueConfiguration(Url), IQueueConfiguration<TQueueId>
+    where TQueueId : IQueueIdentifier;

@@ -1,5 +1,5 @@
 using _7Factor.QueueAdapter.Message;
-using _7Factor.QueueAdapter.Sqs.Client;
+using _7Factor.QueueAdapter.Sqs.Configuration;
 using _7Factor.QueueAdapter.Sqs.Test.Util;
 using Amazon.SQS;
 using Amazon.SQS.Model;
@@ -15,10 +15,10 @@ public class SqsMessageQueueTest
 
     private const string SqsUrl = "https://www.example.com";
     private const string MessageSchemaKey = "messageSchema";
-    private const string MessageSchemaDataType = "string";
+    private const string MessageSchemaDataType = "String";
     private const string MessageBody = "Hello";
 
-    private static readonly MessageSchema SampleSchema = new MessageSchema("SampleSchema");
+    private static readonly MessageSchema SampleSchema = new("SampleSchema");
 
     private static readonly Amazon.SQS.Model.Message SampleSqsMessage = new()
     {
@@ -47,11 +47,7 @@ public class SqsMessageQueueTest
     public SqsMessageQueueTest()
     {
         _sqsMock = new Mock<IAmazonSQS>();
-
-        var sqsClientFactoryMock = new Mock<ISqsClientFactory>();
-        sqsClientFactoryMock.Setup(x => x.CreateSqsClient()).Returns(_sqsMock.Object);
-
-        _queue = new SqsMessageQueue(SqsUrl, sqsClientFactoryMock.Object, Mock.Of<ILogger<SqsMessageQueue>>());
+        _queue = new SqsMessageQueue(new QueueConfiguration(SqsUrl), _sqsMock.Object, Mock.Of<ILogger<SqsMessageQueue>>());
     }
 
     #endregion

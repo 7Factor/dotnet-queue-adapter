@@ -4,9 +4,9 @@
         <TargetFramework>net6.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <RootNamespace>_7Factor.QueueAdapter.Sqs</RootNamespace>
-        <AssemblyName>7Factor.QueueAdapter.Sqs</AssemblyName>
-        <PackageId>7Factor.QueueAdapter.Sqs</PackageId>
+        <AssemblyName>7Factor.QueueAdapter.Sqs.Extensions.DependencyInjection</AssemblyName>
+        <RootNamespace>Microsoft.Extensions.DependencyInjection</RootNamespace>
+        <PackageId>7Factor.QueueAdapter.Sqs.Extensions.DependencyInjection</PackageId>
         <RepositoryUrl>https://github.com/7Factor/dotnet-queue-adapter</RepositoryUrl>
         <Company>7Factor Software</Company>
         <PackageVersion>1.0.0</PackageVersion>
@@ -16,12 +16,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="AWSSDK.SQS" Version="3.7.2.3" />
-      <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.0" />
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Abstractions\Abstractions.csproj" />
+      <ProjectReference Include="..\Sqs\Sqs.csproj" />
     </ItemGroup>
 
 </Project>
