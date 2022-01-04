@@ -4,7 +4,6 @@ using _7Factor.QueueAdapter.Sqs;
 using _7Factor.QueueAdapter.Sqs.Configuration;
 using Amazon.SQS;
 using Amazon.SQS.Model;
-using Microsoft.Extensions.Logging;
 using Moq;
 using Xunit;
 
@@ -26,7 +25,6 @@ public class ServiceCollectionExtensionsTest
     {
         _queueMock = new Mock<IAmazonSQS>();
         _services.AddSingleton(_queueMock.Object);
-        _services.AddSingleton(Mock.Of<ILogger<SqsMessageQueue<Queues.SomeQueue>>>());
     }
 
     [Fact]

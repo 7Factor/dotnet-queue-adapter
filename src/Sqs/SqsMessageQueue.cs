@@ -1,7 +1,6 @@
 using _7Factor.QueueAdapter.Message;
 using _7Factor.QueueAdapter.Sqs.Configuration;
 using Amazon.SQS;
-using Microsoft.Extensions.Logging;
 
 namespace _7Factor.QueueAdapter.Sqs;
 
@@ -12,15 +11,13 @@ public class SqsMessageQueue : IMessageQueue
 {
     private readonly string _queueUrl;
     private readonly IAmazonSQS _sqsClient;
-    private readonly ILogger<SqsMessageQueue> _logger;
 
     public SqsMessageQueue(IQueueConfiguration queueConfig, IMessageSchemaProvider messageSchemaProvider,
-        IAmazonSQS sqsClient, ILogger<SqsMessageQueue> logger)
+        IAmazonSQS sqsClient)
     {
         _queueUrl = queueConfig.Url;
         MessageSchemaProvider = messageSchemaProvider;
         _sqsClient = sqsClient;
-        _logger = logger;
     }
 
     public IMessageSchemaProvider MessageSchemaProvider { get; }
@@ -55,11 +52,6 @@ public class SqsMessageQueue : IMessageQueue
         var messageTypeAttr = GetMessageAttributeValue(message, SqsMessageAttribute.MessageType);
         var messageSchema = MessageSchemaProvider.ParseMessageSchema(messageTypeAttr);
 
-        if (messageSchema == MessageSchema.Unknown)
-        {
-            _logger.LogWarning("Unknown message type \"{MessageType}\"", messageTypeAttr);
-        }
-
         var body = message.Body;
 
         return new SimpleMessage(messageSchema, body);
@@ -80,8 +72,8 @@ public class SqsMessageQueue : IMessageQueue
 public class SqsMessageQueue<TQueueId> : SqsMessageQueue, IMessageQueue<TQueueId> where TQueueId : IQueueIdentifier
 {
     public SqsMessageQueue(IQueueConfiguration<TQueueId> queueConfig,
-        IMessageSchemaProvider<TQueueId> messageSchemaProvider, IAmazonSQS sqsClient,
-        ILogger<SqsMessageQueue<TQueueId>> logger) : base(queueConfig, messageSchemaProvider, sqsClient, logger)
+        IMessageSchemaProvider<TQueueId> messageSchemaProvider, IAmazonSQS sqsClient) : base(queueConfig,
+        messageSchemaProvider, sqsClient)
     {
     }
 }
